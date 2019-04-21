@@ -144,7 +144,7 @@ def add_values_to_bundle_safe(connection, bundle, values):
     for value in values:
         try:
             connection.addValueToBundle(bundle, value)
-        except YouTrackException, e:
+        except YouTrackException as ex:
             if e.response.status == 409:
                 print "Value with name [ %s ] already exists in bundle [ %s ]" % \
                       (utf8encode(value.name), utf8encode(bundle.name))
@@ -157,7 +157,7 @@ def create_bundle_safe(connection, bundle_name, bundle_type):
     bundle.name = bundle_name
     try:
         connection.createBundle(bundle)
-    except YouTrackException, e:
+    except YouTrackException as ex:
         if e.response.status == 409:
             print "Bundle with name [ %s ] already exists" % bundle_name
         else:

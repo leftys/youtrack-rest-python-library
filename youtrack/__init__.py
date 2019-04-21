@@ -495,7 +495,7 @@ class UserBundle(YouTrackObject):
                 try:
                     refined_user = self.youtrack.getUser(user.login)
                     all_users.append(refined_user)
-                except YouTrackException, e:
+                except YouTrackException as ex:
                     print "Error on extracting user info for [" + str(user.login) + "] user won't be imported"
                     print e
         return list(set(all_users))

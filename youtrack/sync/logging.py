@@ -23,7 +23,7 @@ class Logger(object):
         print line
         try:
             if LOGGING: self.log_file.write(str(line) + '\n')
-        except UnicodeError, e:
+        except UnicodeError as ex:
             print e
 
     def logError(self, error, action_name, yt, message, run_as=None):
@@ -36,7 +36,7 @@ class Logger(object):
                 self.error_file.write('---------------------------------------------------------\n')
                 print line
                 print error
-            except UnicodeError, e:
+            except UnicodeError as ex:
                 print e
 
     def finalize(self):

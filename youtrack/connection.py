@@ -35,7 +35,7 @@ def relogin_on_401(f):
         while attempts:
             try:
                 return f(self, *args, **kwargs)
-            except youtrack.YouTrackException, e:
+            except youtrack.YouTrackException as ex:
                 if e.response.status not in (401, 403, 500, 504):
                     raise e
                 if e.response.status == 504:
@@ -247,18 +247,18 @@ class Connection(object):
             print 'Importing attachment for issue ', issueId
             try:
                 print 'Name: ', utf8encode(a.name)
-            except Exception, e:
+            except Exception as ex:
                 print e
             try:
                 print 'Author: ', a.authorLogin
-            except Exception, e:
+            except Exception as ex:
                 print e
             return self.importAttachment(issueId, a.name, content, a.authorLogin,
                 contentLength=contentLength,
                 contentType=content.info().type,
                 created=a.created if hasattr(a, 'created') else None,
                 group=utf8encode(a.group) if hasattr(a, 'group') else '')
-        except urllib2.HTTPError, e:
+        except urllib2.HTTPError as ex:
             print "Can't create attachment"
             try:
                 err_content = e.read()
@@ -280,7 +280,7 @@ class Connection(object):
                 print "Attachment URL: ", attach_url
             except Exception:
                 pass
-        except Exception, e:
+        except Exception as ex:
             try:
                 print content.geturl()
                 print content.getcode()
@@ -327,7 +327,7 @@ class Connection(object):
         #r.set_proxy('localhost:8888', 'http')
         try:
             res = urllib2.urlopen(r)
-        except urllib2.HTTPError, e:
+        except urllib2.HTTPError as ex:
             if e.code == 201:
                 return e.msg + ' ' + name
             raise e
@@ -954,7 +954,7 @@ class Connection(object):
             xml = minidom.parseString(content)
             return [youtrack.WorkItem(e, self) for e in xml.documentElement.childNodes if
                     e.nodeType == Node.ELEMENT_NODE]
-        except youtrack.YouTrackException, e:
+        except youtrack.YouTrackException as ex:
             print "Can't get work items.", str(e)
             return []
 
@@ -1026,7 +1026,7 @@ class Connection(object):
         try:
             cont = self._get('/admin/timetracking')
             return youtrack.GlobalTimeTrackingSettings(cont, self)
-        except youtrack.YouTrackException, e:
+        except youtrack.YouTrackException as ex:
             if e.response.status != 404:
                 raise e
 
@@ -1034,7 +1034,7 @@ class Connection(object):
         try:
             cont = self._get('/admin/project/' + projectId + '/timetracking')
             return youtrack.ProjectTimeTrackingSettings(cont, self)
-        except youtrack.YouTrackException, e:
+        except youtrack.YouTrackException as ex:
             if e.response.status != 404:
                 raise e
 
