@@ -9,15 +9,17 @@ try:
     md_file = path.join(here, 'README.md')
     rst_file = path.join(here, 'README.rst')
     pypandoc.convert_file(source_file=md_file, outputfile=rst_file, to='rst')
+
+    # Get the long description from the relevant file
+    with open(path.join(here, 'README.rst')) as f:
+        long_description = f.read()
+    long_description = ''
 except (ImportError, OSError, IOError, RuntimeError):
     pass
 
-# Get the long description from the relevant file
-with open(path.join(here, 'README.rst')) as f:
-    long_description = f.read()
 
 # Get version from file
-with open(path.join(here, 'version')) as f:
+with open(path.join(here, 'version.txt')) as f:
     version = f.read().strip()
 
 
@@ -37,5 +39,8 @@ setup(
         # Cannot use original module because at the time it was modified in youtrack repo.
         # "urllib2_file",
         "six"
+    ],
+    setup_requires=[
+        'pandoc',
     ]
 )
