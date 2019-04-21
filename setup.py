@@ -26,7 +26,7 @@ with open(path.join(here, 'version.txt')) as f:
 setup(
     name='youtrack',
     version=version,
-    python_requires='>=2.6, <3',
+    python_requires='>=2.6',
     packages=['youtrack', 'youtrack.sync'],
     url='https://github.com/JetBrains/youtrack-rest-python-library',
     license='Apache 2.0',
